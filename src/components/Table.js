@@ -4,7 +4,7 @@ import TableRow from './TableRow.js';
 
 function Table(props) {
   const data = props.data;
-  console.log('data Table', data);
+  // console.log('data Table', data);
   return (
     <table>
       <thead>
