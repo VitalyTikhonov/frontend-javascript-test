@@ -1,41 +1,39 @@
 import './App.css';
-import React from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Table from './Table.js';
 import { getData } from '../utilities/api';
 
 function App() {
-  const [data, setData] = React.useState();
-  const [paginationConfig, setPaginationConfig] = React.useState();
-  const [dataPortion, setDataPortion] = React.useState();
-  const buttonRefLarge = React.useRef();
-  const buttonRefSmall = React.useRef();
+  // const [data, setData] = useState([]);
+  const [paginationConfig, setPaginationConfig] = useState({});
+  const [dataPortion, setDataPortion] = useState([]);
+  const buttonRefLarge = useRef();
+  const buttonRefSmall = useRef();
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function handleClick(e) {
       const res = await getData(e.target.id === 'largeSetButton' ? true : false);
-      console.log('res', res);
-      setData(res);
-      console.log('data', data);
+      // setData([...res]);
       setPaginationConfig({
         increment: 50,
         currentStart: 0,
-        remainder: data.length,
+        remainder: res.length,
       });
       console.log('paginationConfig', paginationConfig);
-      // const currentEnd = paginationConfig.currentStart + paginationConfig.increment;
-      // setDataPortion(data.slice(paginationConfig.currentStart, currentEnd));
-      // const nextStart = paginationConfig.currentStart += paginationConfig.increment;
-      // const nextRemainder = paginationConfig.remainder -= paginationConfig.increment;
-      // setPaginationConfig({
-      //   increment: 50,
-      //   currentStart: nextStart,
-      //   remainder: nextRemainder,
-      // });
+      const currentEnd = paginationConfig.currentStart + paginationConfig.increment;
+      setDataPortion(res.slice(paginationConfig.currentStart, currentEnd));
+      const nextStart = paginationConfig.currentStart += paginationConfig.increment;
+      const nextRemainder = paginationConfig.remainder -= paginationConfig.increment;
+      setPaginationConfig({
+        increment: 50,
+        currentStart: nextStart,
+        remainder: nextRemainder,
+      });
     }
     buttonRefLarge.current.addEventListener('click', handleClick);
     buttonRefSmall.current.addEventListener('click', handleClick);
-  }, []);
+  });
 
   return (
     <div className="App">
