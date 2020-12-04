@@ -19,8 +19,8 @@ function Table(props) {
       <tbody>
         {
           data
-            ? data.map((item) => (
-              <TableRow key={item.id} data={item} />
+            ? data.map((item, index) => (
+              <TableRow key={index + item.id} data={item} />
             ))
             : (
               <tr>

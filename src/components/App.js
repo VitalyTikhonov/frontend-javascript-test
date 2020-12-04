@@ -16,9 +16,9 @@ function App() {
       const res = await getData(e.target.id === 'largeSetButton' ? true : false);
       // setData([...res]);
       setPaginationConfig({
-        increment: 50,
-        currentStart: 0,
-        remainder: res.length,
+        increment: Number(50),
+        currentStart: Number(0),
+        remainder: Number(res.length),
       });
       console.log('paginationConfig', paginationConfig);
       const currentEnd = paginationConfig.currentStart + paginationConfig.increment;
@@ -33,7 +33,7 @@ function App() {
     }
     buttonRefLarge.current.addEventListener('click', handleClick);
     buttonRefSmall.current.addEventListener('click', handleClick);
-  });
+  }, []);
 
   return (
     <div className="App">
